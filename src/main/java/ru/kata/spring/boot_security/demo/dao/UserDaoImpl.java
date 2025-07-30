@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByName(String username) {
+    public Optional<User> findByUsername(String username) {
         try {
             User employee = entityManager.createQuery("SELECT e from User e where e.username = :username", User.class)
                     .setParameter("username", username)
@@ -48,12 +48,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByIdEmployee(Long id) {
-        try{
-            User employee = entityManager.find(User.class, id);
-            return Optional.of(employee);
-        }catch (NoResultException e){
-            return Optional.empty();
-        }
+    public Optional<User> getByIdUser(Long id) {
+        User user = entityManager.find(User.class, id);
+        return Optional.ofNullable(user);
     }
+
 }

@@ -36,7 +36,7 @@ public class DataInitializer {
         Role userRole = roleDao.findByName("USER")
                 .orElseGet(() -> roleDao.save(new Role("USER")));
 
-        if (userDao.findByName("admin").isEmpty()) {
+        if (userDao.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin"));

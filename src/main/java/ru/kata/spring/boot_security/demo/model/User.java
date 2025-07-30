@@ -15,7 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -64,13 +63,8 @@ public class User implements UserDetails {
         this.roles = roleSet;
     }
 
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getAge() {
@@ -95,11 +89,6 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-        role.getUsers().add(this);
     }
 
     @Override
