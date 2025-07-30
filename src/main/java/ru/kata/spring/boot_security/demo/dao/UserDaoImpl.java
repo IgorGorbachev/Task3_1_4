@@ -4,8 +4,10 @@ import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -31,5 +33,27 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
+    }
+
+    @Override
+    public Optional<User> findByName(String username) {
+        try {
+            User employee = entityManager.createQuery("SELECT e from User e where e.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+            return Optional.of(employee);
+        } catch (NoResultException e){
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findByIdEmployee(Long id) {
+        try{
+            User employee = entityManager.find(User.class, id);
+            return Optional.of(employee);
+        }catch (NoResultException e){
+            return Optional.empty();
+        }
     }
 }
