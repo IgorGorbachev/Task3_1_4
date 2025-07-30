@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -22,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void addUser(User user) {
-        if (user.getName() != null && !user.getName().isEmpty() && user.getName().matches("[a-zA-Zа-яА-ЯёЁ ]+") && user.getAge() != null && user.getAge() > 0 && user.getAge() < 150) {
+        if (user.getUsername() != null && !user.getUsername().isEmpty() && user.getUsername().matches("[a-zA-Zа-яА-ЯёЁ ]+") && user.getAge() != null && user.getAge() > 0 && user.getAge() < 150) {
             userDao.addUser(user);
         } else {
             throw new IllegalArgumentException("Имя пользователя обязательно (только буквы)" + "\n" +

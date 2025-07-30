@@ -25,7 +25,7 @@ public class UserController {
     public String showUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("listUsers", users);
-        return "user";
+        return "admin";
     }
 
     @PostMapping("/addUser")
@@ -34,7 +34,7 @@ public class UserController {
             userService.addUser(user);
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "user";
+            return "admin";
         }
         return "redirect:/";
     }
