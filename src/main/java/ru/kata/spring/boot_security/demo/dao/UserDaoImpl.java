@@ -1,8 +1,9 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,8 @@ import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -26,8 +29,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(User user) {
-        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
+    public void deleteUser(Long id) {
+        User user = entityManager.find(User.class, id);
+        entityManager.remove(user);
     }
 
     @Override

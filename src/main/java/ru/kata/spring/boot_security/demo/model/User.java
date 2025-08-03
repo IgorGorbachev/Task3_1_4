@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,10 +34,16 @@ public class User implements UserDetails {
     @Column(name = "age")
     private Integer age;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -53,7 +60,9 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Set<Role> getRoles() {
         return roles;
