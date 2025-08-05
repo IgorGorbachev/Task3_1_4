@@ -56,9 +56,11 @@ public class AdminController {
 
     @PostMapping("/changeUser")
     public String changeUser(@ModelAttribute("user") User user,
-                             @RequestParam("password") String password,
+                             @RequestParam(value = "password" , required = false) String password,
                              @RequestParam("roles") Set<Long> roleIds) {
-
+        logger.info("LOGGER FROM CONTROLLER user = {}", user);
+        logger.info("LOGGER FROM CONTROLLER password = {}", password);
+        logger.info("LOGGER FROM CONTROLLER Set<Long> roleIds = {}", roleIds);
         userService.changeUser(user, password, roleIds);
 
         return "redirect:/admin/";
@@ -66,6 +68,7 @@ public class AdminController {
 
     @PostMapping("/deleteUser")
     public String deleteUser(@RequestParam("id") Long id) {
+        logger.info("LOGGER FROM CONTROLLER deleteUser id = {}", id);
         userService.deleteUser(id);
         return "redirect:/admin/";
     }

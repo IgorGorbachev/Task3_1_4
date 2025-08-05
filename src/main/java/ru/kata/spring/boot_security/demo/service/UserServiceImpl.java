@@ -44,10 +44,27 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void changeUser(User user, String rawPassword, Set<Long> roleIds) {
-        validateUser(user, rawPassword, roleIds);
-        if (!user.getPassword().equals(rawPassword)) {
-            user.setPassword(passwordEncoder.encode(rawPassword));
+
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
         }
+        if (roleIds == null || roleIds.isEmpty()) {
+            throw new IllegalArgumentException("At least one role must be specified");
+        }
+
+        User existingUser = userDao.getByIdUser(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (rawPassword != null && !rawPassword.trim().isEmpty()) {
+            if (!passwordEncoder.matches(rawPassword, existingUser.getPassword())) {
+                user.setPassword(passwordEncoder.encode(rawPassword));
+            } else {
+                user.setPassword(existingUser.getPassword());
+            }
+        } else {
+            user.setPassword(existingUser.getPassword());
+        }
+
         user.setRoles(roleService.getRolesByIds(roleIds));
         userDao.changeUser(user);
     }
