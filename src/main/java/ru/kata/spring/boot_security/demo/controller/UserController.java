@@ -23,7 +23,7 @@ public class UserController {
     public String showUser(Model model, Authentication authentication) {
         String username = ((UserDetails) authentication.getPrincipal()).getUsername();
         User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        model.addAttribute("user", user);
+        model.addAttribute("listUser", user);
         return "user";
     }
 }
