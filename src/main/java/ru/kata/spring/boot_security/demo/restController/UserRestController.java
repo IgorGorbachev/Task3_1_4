@@ -34,7 +34,7 @@ public class UserRestController {
                     dto.setUsername(user.getUsername());
                     dto.setAge(user.getAge());
                     dto.setRoles(user.getRoles().stream()
-                            .map(Role::getName)
+                            .map(Role::getId)
                             .collect(Collectors.toSet()));
                     return ResponseEntity.ok(dto);
                 })

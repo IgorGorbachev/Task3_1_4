@@ -1,8 +1,6 @@
 package ru.kata.spring.boot_security.demo.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Set;
 
 public class UserDTO {
@@ -15,7 +13,7 @@ public class UserDTO {
 
     private String password;
 
-    private Set<String> roles;
+    private Set<Long> roles;
 
     public UserDTO() {
     }
@@ -53,11 +51,22 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Set<String> getRoles() {
+    public Set<Long> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<String> roles) {
+    public void setRoles(Set<Long> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+               "id=" + id +
+               ", username='" + username + '\'' +
+               ", age=" + age +
+               ", password='" + password + '\'' +
+               ", roles=" + roles +
+               '}';
     }
 }
