@@ -8,36 +8,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserDtoService;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {
 
-    private final UserService userService;
+    private final UserDtoService userDtoService;
 
-    public UserRestController(UserService userService){
-        this.userService = userService;
+    public UserRestController(UserDtoService userDtoService){
+        this.userDtoService = userDtoService;
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
-        return userService.getByIdUser(id)
-                .map(user -> {
-                    UserDTO dto = new UserDTO();
-                    dto.setId(user.getId());
-                    dto.setUsername(user.getUsername());
-                    dto.setAge(user.getAge());
-                    dto.setRoles(user.getRoles().stream()
-                            .map(Role::getId)
-                            .collect(Collectors.toSet()));
-                    return ResponseEntity.ok(dto);
-                })
+        return userDtoService.getUserById(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 }
