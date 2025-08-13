@@ -30,19 +30,19 @@ public class AdminRestController {
     }
 
     @PostMapping("/")
-    public UserDTO addNewUser(@RequestBody UserDTO userDTO) {
-        return userDtoService.createUser(userDTO);
+    public ResponseEntity <UserDTO> addNewUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userDtoService.createUser(userDTO));
     }
 
     @PutMapping("/")
-    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
-        return userDtoService.updateUser(userDTO);
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userDtoService.updateUser(userDTO));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userDtoService.deleteUser(id);
-        return "User with id = " + id + " was deleted";
+        return ResponseEntity.ok("User with id = " + id + " was deleted");
     }
 
 
